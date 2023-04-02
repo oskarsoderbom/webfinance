@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -21,13 +21,21 @@ def function_5(arg):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # retrieve up to five user inputs from the form
-        user_inputs = [request.form.get(f'user_input_{i+1}', '') for i in range(5)]
-        # call the five functions with the user inputs as arguments
-        results = [f(user_input) for f, user_input in zip([function_1, function_2, function_3, function_4, function_5], user_inputs)]
-        # pass the results to the template
-        return render_template('result.html', results=results)
+        arg1 = float(request.form['arg1'])
+        arg2 = float(request.form['arg2'])
+        arg3 = float(request.form['arg3'])
+        arg4 = float(request.form['arg4'])
+        arg5 = float(request.form['arg5'])
+
+        result1 = function_1(arg1)
+        result2 = function_2(arg2)
+        result3 = function_3(arg3)
+        result4 = function_4(arg4)
+        result5 = function_5(arg5)
+
+        return render_template('result.html', result1=result1, result2=result2, result3=result3, result4=result4, result5=result5)
+
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
