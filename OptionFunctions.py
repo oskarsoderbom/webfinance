@@ -1,5 +1,4 @@
 import math
-from scipy.stats import norm
 
 class EuropeanPut:
 
@@ -11,7 +10,7 @@ class EuropeanPut:
 
         x1 = x1/(asset_volatility * (time_to_expiration ** .5))
 
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
 
         return z1 - 1
 
@@ -24,7 +23,7 @@ class EuropeanPut:
 
         x1 = x1/(asset_volatility * (time_to_expiration ** .5))
 
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
 
         z2 = z1/(asset_price*asset_volatility*math.sqrt(time_to_expiration))
 
@@ -39,7 +38,7 @@ class EuropeanPut:
 
         x1 = x1/(asset_volatility * (time_to_expiration ** .5))
 
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
 
         z2 = asset_price*z1*math.sqrt(time_to_expiration)
 
@@ -53,7 +52,7 @@ class EuropeanPut:
 
         x1 = x1/(asset_volatility * (time_to_expiration ** .5))
 
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
 
         z1 = b* strike_price * z1
 
@@ -61,7 +60,7 @@ class EuropeanPut:
 
         x2 = x2/(asset_volatility*(time_to_expiration**.5))
 
-        z2 = norm.cdf(x2)
+        z2 = 0.5 * (1 + math.erf(x2 / math.sqrt(2)))
 
         z2 = asset_price * z2
 
@@ -89,7 +88,7 @@ class EuropeanCall:
         b = math.exp(-risk_free_rate*time_to_expiration)
         x1 = math.log(asset_price/(b*strike_price)) + .5*(asset_volatility*asset_volatility)*time_to_expiration
         x1 = x1/(asset_volatility*(time_to_expiration**.5))
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
         return z1
 
     def call_gamma(
@@ -99,7 +98,7 @@ class EuropeanCall:
         b = math.exp(-risk_free_rate*time_to_expiration)
         x1 = math.log(asset_price/(b*strike_price)) + .5*(asset_volatility*asset_volatility)*time_to_expiration
         x1 = x1/(asset_volatility*(time_to_expiration**.5))
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
         z2 = z1/(asset_price*asset_volatility*math.sqrt(time_to_expiration))
         return z2
 
@@ -110,7 +109,7 @@ class EuropeanCall:
         b = math.exp(-risk_free_rate*time_to_expiration)
         x1 = math.log(asset_price/(b*strike_price)) + .5*(asset_volatility*asset_volatility)*time_to_expiration
         x1 = x1/(asset_volatility*(time_to_expiration**.5))
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
         z2 = asset_price*z1*math.sqrt(time_to_expiration)
         return z2/100
 
@@ -121,11 +120,11 @@ class EuropeanCall:
         b = math.exp(-risk_free_rate*time_to_expiration)
         x1 = math.log(asset_price/(b*strike_price)) + .5*(asset_volatility*asset_volatility)*time_to_expiration
         x1 = x1/(asset_volatility*(time_to_expiration**.5))
-        z1 = norm.cdf(x1)
+        z1 = 0.5 * (1 + math.erf(x1 / math.sqrt(2)))
         z1 = z1*asset_price
         x2 = math.log(asset_price/(b*strike_price)) - .5*(asset_volatility*asset_volatility)*time_to_expiration
         x2 = x2/(asset_volatility*(time_to_expiration**.5))
-        z2 = norm.cdf(x2)
+        z2 = 0.5 * (1 + math.erf(x2 / math.sqrt(2)))
         z2 = b*strike_price*z2
         return z1 - z2
 
