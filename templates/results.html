@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Option Results</title>
+	<style type="text/css">
+		form {
+			margin: 0 auto;
+			width: 300px;
+			text-align: center;
+		}
+		input[type="submit"] {
+			margin-top: 10px;
+			padding: 10px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>Option Results</h1>
+	<form>
+		<label>Option Price:</label>
+		<input type="text" name="option_price" value="{{ option.price }}" readonly><br><br>
+		<label>Delta:</label>
+		<input type="text" name="delta" value="{{ option.delta }}" readonly><br><br>
+		<label>Gamma:</label>
+		<input type="text" name="gamma" value="{{ option.gamma }}" readonly><br><br>
+		<label>Vega:</label>
+		<input type="text" name="vega" value="{{ option.vega }}" readonly><br><br>
+		<input type="submit" value="Calculate Another Option">
+	</form>
+</body>
+</html>

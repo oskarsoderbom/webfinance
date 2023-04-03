@@ -1,38 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>My Flask App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="title">My Flask App</h1>
-      <div class="form-container">
-        <form method="post" action="/">
-          <label for="arg1">Argument 1:</label>
-          <input type="text" id="arg1" name="arg1" required>
-
-          <label for="arg2">Argument 2:</label>
-          <input type="text" id="arg2" name="arg2" required>
-
-          <label for="arg3">Argument 3:</label>
-          <input type="text" id="arg3" name="arg3" required>
-
-          <label for="arg4">Argument 4:</label>
-          <input type="text" id="arg4" name="arg4" required>
-
-          <label for="arg5">Argument 5:</label>
-          <input type="text" id="arg5" name="arg5" required>
-
-          <input type="submit" value="Submit">
-        </form>
-      </div>
-      <div class="result-container">
-        {% if result %}
-        <h2 class="subtitle">Results:</h2>
-        <p>{{ result }}</p>
-        {% endif %}
-      </div>
-    </div>
-  </body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Options Calculator</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   </head>
+   <body>
+      <h1>Options Calculator</h1>
+      <form method="POST" action="/options">
+         <div class="center">
+            <label>
+               <input type="radio" name="option_type" value="call" checked> Call
+            </label>
+            <label>
+               <input type="radio" name="option_type" value="put"> Put
+            </label>
+         </div>
+         <div class="center">
+            <label>Asset Price:</label>
+            <input type="number" name="asset_price" step="0.01" required>
+         </div>
+         <div class="center">
+            <label>Asset Volatility:</label>
+            <input type="number" name="asset_volatility" step="0.01" required>
+         </div>
+         <div class="center">
+            <label>Strike Price:</label>
+            <input type="number" name="strike_price" step="0.01" required>
+         </div>
+         <div class="center">
+            <label>Time to Expiration:</label>
+            <input type="number" name="time_to_expiration" step="0.01" required>
+         </div>
+         <div class="center">
+            <label>Risk-free Rate:</label>
+            <input type="number" name="risk_free_rate" step="0.01" required>
+         </div>
+         <div class="center">
+            <input type="submit" value="Calculate">
+         </div>
+      </form>
+   </body>
 </html>
