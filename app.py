@@ -1,41 +1,62 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+from OptionFunctions import EuropeanCall, EuropeanPut
 
 app = Flask(__name__)
 
-# define five example functions that take one argument each
-def function_1(arg):
-    return arg*1
 
-def function_2(arg):
-    return arg*2
-
-def function_3(arg):
-    return arg*3
-
-def function_4(arg):
-    return arg*4
-
-def function_5(arg):
-    return arg*5
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    if request.method == 'POST':
-        arg1 = float(request.form['arg1'])
-        arg2 = float(request.form['arg2'])
-        arg3 = float(request.form['arg3'])
-        arg4 = float(request.form['arg4'])
-        arg5 = float(request.form['arg5'])
-
-        result1 = function_1(arg1)
-        result2 = function_2(arg2)
-        result3 = function_3(arg3)
-        result4 = function_4(arg4)
-        result5 = function_5(arg5)
-
-        return render_template('result.html', result1=result1, result2=result2, result3=result3, result4=result4, result5=result5)
-
     return render_template('index.html')
 
+
+@app.route('/options', methods=['POST'])
+def options():
+    option_type = request.form['option_type']
+    if option_type == 'call':
+        price = float(request.form['asset_price'])
+        volatility = float(request.form['asset_volatility'])
+        strike = float(request.form['strike_price'])
+        time = float(request.form['time_to_expiration'])
+        rate = float(request.form['risk_free_rate'])
+        option = EuropeanCall(asset_price=price,
+                              asset_volatility=volatility,
+                              strike_price=strike,
+                              time_to_expiration=time,
+                              risk_free_rate=rate)
+    elif option_type == 'put':
+        price = float(request.form['asset_price'])
+        volatility = float(request.form['asset_volatility'])
+        strike = float(request.form['strike_price'])
+        time = float(request.form['time_to_expiration'])
+        rate = float(request.form['risk_free_rate'])
+        option = EuropeanPut(asset_price=price,
+                             asset_volatility=volatility,
+                             strike_price=strike,
+                             time_to_expiration=time, 
+                             risk_free_rate=rate)
+
+        option_price = option.price
+        delta = option.delta
+        gamma = option.gamma
+        vega = option.vega
+
+        return redirect(f"/results?option_price={option_price}&delta={delta}&gamma={gamma}&vega={vega}")
+        
+    return render_template('results.html', option=option)
+
+
+@app.route('/results')
+def results():
+    option_price = request.args.get('option_price')
+    delta = request.args.get('delta')
+    gamma = request.args.get('gamma')
+    vega = request.args.get('vega')
+
+    if not option_price or not delta or not gamma or not vega:
+        return redirect('/')
+
+    return render_template('results.html', option_price=option_price, delta=delta, gamma=gamma, vega=vega)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
